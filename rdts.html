@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Richard Dale Theatre School</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:   #0a0a0a;
+      --dark:    #111318;
+      --card:    #181b22;
+      --border:  #242830;
+      --gold:    #c9a84c;
+      --gold-lt: #e8c97a;
+      --white:   #f5f5f0;
+      --muted:   #8a8fa0;
+      --radius:  12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 5vw;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.03em;
+      text-decoration: none;
+    }
+    .nav-logo span { display: block; font-size: 0.65rem; font-family: 'Inter', sans-serif; font-weight: 400; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 1px; }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      background: var(--gold); color: var(--black);
+      padding: 0.55rem 1.3rem; border-radius: 50px;
+      font-size: 0.8rem; font-weight: 600; text-decoration: none;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+    .nav-cta:hover { background: var(--gold-lt); transform: translateY(-1px); }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: all 0.3s; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 8rem 5vw 6rem;
+      position: relative;
+      background:
+        linear-gradient(to top, rgba(10,10,10,1) 0%, rgba(10,10,10,0.55) 55%, rgba(10,10,10,0.3) 100%),
+        url('https://images.unsplash.com/photo-1524593166156-312f362cada0?w=1600&q=80') center/cover no-repeat;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.3);
+      padding: 0.35rem 1rem; border-radius: 50px;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.5rem;
+    }
+    .hero-eyebrow::before { content: ''; display: block; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.08;
+      max-width: 740px;
+      margin-bottom: 1.4rem;
+    }
+    .hero h1 em { font-style: normal; color: var(--gold); }
+
+    .hero p {
+      max-width: 520px;
+      color: rgba(245,245,240,0.75);
+      font-size: 1.05rem;
+      margin-bottom: 2.4rem;
+    }
+
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.85rem 2rem; border-radius: 50px;
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+      letter-spacing: 0.04em; transition: all 0.2s;
+    }
+    .btn-gold { background: var(--gold); color: var(--black); }
+    .btn-gold:hover { background: var(--gold-lt); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,168,76,0.35); }
+    .btn-outline { border: 1px solid rgba(245,245,240,0.3); color: var(--white); }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+    .hero-stats {
+      margin-top: 4rem;
+      display: flex; gap: 2.5rem;
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+    }
+    .stat-item { }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--gold); }
+    .stat-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.2rem; }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 5vw; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+    .section-label::after { content: ''; display: block; width: 32px; height: 1px; background: var(--gold); }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700; line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    h2 em { font-style: normal; color: var(--gold); }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 600px;
+      line-height: 1.75;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-top: 4rem;
+    }
+    .about-image {
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+    }
+    .about-image img { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; border-radius: var(--radius); }
+    .about-badge {
+      position: absolute; bottom: 1.5rem; left: 1.5rem;
+      background: var(--gold); color: var(--black);
+      padding: 0.8rem 1.2rem; border-radius: 8px;
+      font-weight: 700; font-size: 0.85rem;
+      line-height: 1.3;
+    }
+    .about-badge strong { display: block; font-size: 1.5rem; }
+
+    .about-content { }
+    .about-content p { color: var(--muted); line-height: 1.8; margin-bottom: 1.2rem; }
+
+    .patron-card {
+      margin-top: 2rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.4rem;
+    }
+    .patron-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.4rem; }
+    .patron-names { font-weight: 600; font-size: 0.95rem; color: var(--white); }
+
+    /* ── PILLAR CARDS ── */
+    .pillars {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 3rem; }
+    .pillar {
+      padding: 2.5rem 2rem;
+      border-right: 1px solid var(--border);
+      transition: background 0.25s;
+    }
+    .pillar:last-child { border-right: none; }
+    .pillar:hover { background: rgba(201,168,76,0.04); }
+    .pillar-icon {
+      width: 48px; height: 48px; border-radius: 10px;
+      background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 1.2rem;
+    }
+    .pillar h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 0.6rem; }
+    .pillar p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
+
+    /* ── CLASSES ── */
+    .classes-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem; }
+    .classes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .class-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.2s;
+    }
+    .class-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      opacity: 0; transition: opacity 0.25s;
+    }
+    .class-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-3px); }
+    .class-card:hover::before { opacity: 1; }
+
+    .class-tag {
+      display: inline-block;
+      background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.25);
+      color: var(--gold); font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.25rem 0.75rem; border-radius: 50px;
+      margin-bottom: 1rem;
+    }
+    .class-card h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 0.3rem; }
+    .class-years { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.2rem; }
+
+    .class-meta { display: flex; flex-direction: column; gap: 0.5rem; }
+    .meta-row { display: flex; align-items: center; gap: 0.7rem; font-size: 0.88rem; color: rgba(245,245,240,0.8); }
+    .meta-icon { font-size: 1rem; width: 20px; text-align: center; color: var(--gold); }
+
+    .class-venue {
+      margin-top: 1.5rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem; color: var(--muted);
+    }
+
+    /* ── SUMMER SCHOOL ── */
+    .summer {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .summer-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .summer-dates {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3);
+      padding: 0.5rem 1.1rem; border-radius: 50px;
+      font-size: 0.8rem; font-weight: 600; color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .summer-content p { color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem; }
+    .summer-features { display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 2rem; }
+    .feature-row { display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; }
+    .feature-check {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; color: var(--gold); flex-shrink: 0;
+    }
+
+    .summer-card {
+      background: linear-gradient(135deg, var(--card) 0%, rgba(201,168,76,0.06) 100%);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+    }
+    .summer-card h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 0.5rem; }
+    .summer-card .sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 2rem; }
+    .schedule-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+    .schedule-item:last-child { border-bottom: none; }
+    .schedule-item .label { color: var(--muted); }
+    .schedule-item .value { font-weight: 600; }
+
+    /* ── ALUMNI ── */
+    .alumni-intro { max-width: 600px; margin-bottom: 3rem; }
+    .schools-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .school-chip {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.9rem 1rem;
+      font-size: 0.85rem; font-weight: 500;
+      text-align: center;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .school-chip:hover { border-color: var(--gold); color: var(--gold); }
+
+    .placements-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .placement-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .placement-card:hover { border-color: rgba(201,168,76,0.3); }
+    .placement-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 0.3rem; }
+    .placement-detail { font-size: 0.83rem; color: var(--muted); line-height: 1.5; }
+
+    /* ── TESTIMONIAL ── */
+    .testimonial-section {
+      background: linear-gradient(135deg, rgba(201,168,76,0.06) 0%, transparent 60%);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+    .quote-mark { font-family: 'Playfair Display', serif; font-size: 5rem; line-height: 1; color: var(--gold); opacity: 0.3; margin-bottom: -1rem; }
+    .testimonial-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+      line-height: 1.6;
+      max-width: 780px; margin: 0 auto 2rem;
+      font-style: italic;
+    }
+    .testimonial-author { font-size: 0.85rem; color: var(--muted); }
+    .testimonial-author strong { color: var(--white); display: block; font-size: 0.95rem; font-style: normal; font-family: 'Inter', sans-serif; }
+
+    /* ── GUEST TEACHERS ── */
+    .guest-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: grid; grid-template-columns: auto 1fr;
+      gap: 1.5rem; align-items: center;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+    .guest-avatar {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), rgba(201,168,76,0.4));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; font-weight: 700;
+      color: var(--black);
+      flex-shrink: 0;
+    }
+    .guest-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 0.3rem; }
+    .guest-role { font-size: 0.85rem; color: var(--gold); margin-bottom: 0.5rem; }
+    .guest-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── CONTACT ── */
+    .contact-section { background: var(--dark); border-top: 1px solid var(--border); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; align-items: start; }
+    .contact-item { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.5rem; }
+    .contact-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .contact-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.3rem; }
+    .contact-value { font-size: 0.95rem; font-weight: 500; }
+    .contact-value a { color: var(--white); text-decoration: none; transition: color 0.2s; }
+    .contact-value a:hover { color: var(--gold); }
+
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-label { font-size: 0.78rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+    .form-input, .form-textarea {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.85rem 1rem;
+      color: var(--white); font-family: 'Inter', sans-serif; font-size: 0.9rem;
+      outline: none; transition: border-color 0.2s;
+      resize: vertical;
+    }
+    .form-input:focus, .form-textarea:focus { border-color: var(--gold); }
+    .form-textarea { min-height: 120px; }
+    .form-btn {
+      background: var(--gold); color: var(--black);
+      border: none; border-radius: 50px;
+      padding: 0.9rem 2rem; font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; font-weight: 600; cursor: pointer;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      transition: background 0.2s, transform 0.15s;
+      align-self: flex-start;
+    }
+    .form-btn:hover { background: var(--gold-lt); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      padding: 3rem 5vw;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1.5rem;
+    }
+    .footer-brand { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--gold); }
+    .footer-brand span { display: block; font-size: 0.68rem; font-family: 'Inter', sans-serif; font-weight: 400; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+    .footer-copy { font-size: 0.78rem; color: var(--muted); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 0.78rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .pillars-grid { grid-template-columns: 1fr; }
+      .pillar { border-right: none; border-bottom: 1px solid var(--border); }
+      .classes-grid { grid-template-columns: 1fr; }
+      .summer-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .schools-grid { grid-template-columns: repeat(2, 1fr); }
+      .placements-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+      .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+    }
+
+    @media (max-width: 560px) {
+      section { padding: 4rem 5vw; }
+      .hero { padding: 7rem 5vw 4rem; }
+      .hero-stats { padding-top: 1.5rem; margin-top: 2.5rem; }
+      .schools-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+  <!-- Open Graph / WhatsApp preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://saturnresults.github.io/rdts.html" />
+  <meta property="og:title" content="YK Wellness | West London" />
+  <meta property="og:description" content="Expert massage therapy and osteopathy at Westway Sports Centre, West London." />
+  <meta property="og:image" content="https://saturnresults.github.io/Cover_IMAGE.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://saturnresults.github.io/Cover_IMAGE.jpg" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">
+      RDTS
+      <span>Richard Dale Theatre School</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#classes">Classes</a></li>
+      <li><a href="#summer">Summer School</a></li>
+      <li><a href="#alumni">Alumni</a></li>
+      <li><a href="#guests">Guest Teachers</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Enquire Now</a>
+    <button class="hamburger" aria-label="Menu" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-eyebrow">Independent Theatre School · Exeter</div>
+    <h1>Where <em>Triple Threat</em> Performers Are Made</h1>
+    <p>Professional training in acting, singing &amp; dancing — led by industry experts and West End professionals in the heart of Exeter.</p>
+    <div class="hero-actions">
+      <a href="#classes" class="btn btn-gold">Explore Classes</a>
+      <a href="#contact" class="btn btn-outline">Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">120+</div>
+        <div class="stat-label">Enrolled Students</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Year Groups</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Drama Schools Placed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">West End</div>
+        <div class="stat-label">Annual Workshops</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">About the School</div>
+    <div class="about-grid">
+      <div class="about-image">
+        <img src="https://images.unsplash.com/photo-1508700929628-666bc8bd84ea?w=800&q=80" alt="Theatre performance" />
+        <div class="about-badge">
+          <strong>No</strong>
+          Franchise. Ever.
+        </div>
+      </div>
+      <div class="about-content">
+        <div class="section-label">Richard Dale</div>
+        <h2>Passion-Driven.<br /><em>Industry-Led.</em></h2>
+        <p>Richard Dale Theatre School is a professional independent stage school — not a franchise — specialising in triple threat training across acting, singing, and dancing.</p>
+        <p>With over 120 students drawn from schools across the South West, we maintain intentionally small class sizes to ensure every student receives the focused, professional training they deserve. No babysitting. No tea breaks. Just serious craft.</p>
+        <p>Each year we bring West End performers directly into the studio — giving students firsthand access to working industry professionals from productions including Mamma Mia, Newsies, and more.</p>
+        <div class="patron-card">
+          <div class="patron-label">Patrons of the School</div>
+          <div class="patron-names">Anthony Drewe &amp; Judi Spiers</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PILLARS -->
+  <section class="pillars">
+    <div class="section-label">The Training</div>
+    <h2>Three Disciplines.<br /><em>One Performer.</em></h2>
+    <div class="pillars-grid">
+      <div class="pillar">
+        <div class="pillar-icon">🎭</div>
+        <h3>Acting</h3>
+        <p>From scene study to audition technique, students develop the emotional truth and technical skill to inhabit any role convincingly on stage or screen.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">🎤</div>
+        <h3>Singing</h3>
+        <p>Vocal development rooted in musical theatre repertoire — belt, mix, and classical styles explored with care for the student's individual voice.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">💃</div>
+        <h3>Dancing</h3>
+        <p>Technique across contemporary, jazz, and musical theatre styles, building the physical command and performance quality demanded by top drama schools.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLASSES -->
+  <section id="classes">
+    <div class="classes-header">
+      <div>
+        <div class="section-label">The Course</div>
+        <h2>Find Your <em>Year Group</em></h2>
+      </div>
+      <p class="lead" style="max-width:400px; font-size:0.9rem;">All classes are held at Exeter College Studios — professional facilities behind Queen Street, Exeter.</p>
+    </div>
+    <div class="classes-grid">
+      <div class="class-card">
+        <div class="class-tag">Juniors</div>
+        <h3>Junior Company</h3>
+        <div class="class-years">School Years 4, 5 &amp; 6</div>
+        <div class="class-meta">
+          <div class="meta-row"><span class="meta-icon">📅</span> Every Monday</div>
+          <div class="meta-row"><span class="meta-icon">🕐</span> 4:50 PM – 6:30 PM</div>
+          <div class="meta-row"><span class="meta-icon">⏱</span> 100 minutes per session</div>
+        </div>
+        <div class="class-venue">📍 Exeter College Dance Studio, Exeter</div>
+      </div>
+      <div class="class-card">
+        <div class="class-tag">Interfoundation</div>
+        <h3>Interfoundation</h3>
+        <div class="class-years">School Years 7 &amp; 8</div>
+        <div class="class-meta">
+          <div class="meta-row"><span class="meta-icon">📅</span> Every Monday</div>
+          <div class="meta-row"><span class="meta-icon">🕐</span> 5:50 PM – 7:50 PM</div>
+          <div class="meta-row"><span class="meta-icon">⏱</span> 120 minutes per session</div>
+        </div>
+        <div class="class-venue">📍 Exeter College Dance Studio, Exeter</div>
+      </div>
+      <div class="class-card">
+        <div class="class-tag">Intermediates</div>
+        <h3>Intermediate Company</h3>
+        <div class="class-years">School Years 9, 10 &amp; 11</div>
+        <div class="class-meta">
+          <div class="meta-row"><span class="meta-icon">📅</span> Every Tuesday</div>
+          <div class="meta-row"><span class="meta-icon">🕐</span> 5:15 PM – 8:15 PM</div>
+          <div class="meta-row"><span class="meta-icon">⏱</span> 180 minutes per session</div>
+        </div>
+        <div class="class-venue">📍 Exeter College Dance Studio, Exeter</div>
+      </div>
+      <div class="class-card">
+        <div class="class-tag">Seniors</div>
+        <h3>Senior Company</h3>
+        <div class="class-years">School Years 12 &amp; 13</div>
+        <div class="class-meta">
+          <div class="meta-row"><span class="meta-icon">📅</span> Every Tuesday</div>
+          <div class="meta-row"><span class="meta-icon">🕐</span> 5:15 PM – 8:15 PM</div>
+          <div class="meta-row"><span class="meta-icon">⏱</span> 180 minutes per session</div>
+        </div>
+        <div class="class-venue">📍 Exeter College Dance Studio, Exeter</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUMMER SCHOOL -->
+  <section class="summer" id="summer">
+    <div class="summer-inner">
+      <div class="summer-content">
+        <div class="summer-dates">☀️ July 27–31, 2026</div>
+        <div class="section-label">Summer School</div>
+        <h2>West End Training.<br /><em>One Unforgettable Week.</em></h2>
+        <p>An intensive five-day programme led by current industry professionals from London's West End. Students train in all three disciplines with performers who are working in the industry right now.</p>
+        <div class="summer-features">
+          <div class="feature-row">
+            <div class="feature-check">✓</div>
+            <span>Acting, singing &amp; dancing — all three disciplines</span>
+          </div>
+          <div class="feature-row">
+            <div class="feature-check">✓</div>
+            <span>Taught by current West End performers</span>
+          </div>
+          <div class="feature-row">
+            <div class="feature-check">✓</div>
+            <span>Industry insights and professional advice</span>
+          </div>
+          <div class="feature-row">
+            <div class="feature-check">✓</div>
+            <span>Teachers from Mamma Mia &amp; Newsies casts</span>
+          </div>
+        </div>
+        <a href="#contact" class="btn btn-gold">Reserve Your Place</a>
+      </div>
+      <div class="summer-card">
+        <h3>Summer School 2026</h3>
+        <div class="sub">Exeter College Studios</div>
+        <div class="schedule-item">
+          <span class="label">Dates</span>
+          <span class="value">27–31 July 2026</span>
+        </div>
+        <div class="schedule-item">
+          <span class="label">Daily Hours</span>
+          <span class="value">10:00 AM – 4:00 PM</span>
+        </div>
+        <div class="schedule-item">
+          <span class="label">Duration</span>
+          <span class="value">5 Days Intensive</span>
+        </div>
+        <div class="schedule-item">
+          <span class="label">Focus</span>
+          <span class="value">Triple Threat</span>
+        </div>
+        <div class="schedule-item">
+          <span class="label">Taught by</span>
+          <span class="value">West End Professionals</span>
+        </div>
+        <div class="schedule-item">
+          <span class="label">Location</span>
+          <span class="value">Exeter, Devon</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALUMNI -->
+  <section id="alumni">
+    <div class="alumni-intro">
+      <div class="section-label">Alumni</div>
+      <h2>Students Placed at the <em>UK's Best</em> Drama Schools</h2>
+      <p class="lead" style="font-size:0.95rem;">Our alumni have gone on to secure places at some of the most competitive and prestigious drama schools in the country.</p>
+    </div>
+    <div class="schools-grid">
+      <div class="school-chip">Arts Ed</div>
+      <div class="school-chip">Italia Conti</div>
+      <div class="school-chip">Royal Central</div>
+      <div class="school-chip">Mountview</div>
+      <div class="school-chip">Royal Welsh</div>
+      <div class="school-chip">Trinity Laban</div>
+      <div class="school-chip">Performers College</div>
+      <div class="school-chip">ALRA</div>
+      <div class="school-chip">GSA</div>
+      <div class="school-chip">Birds</div>
+    </div>
+    <div class="section-label" style="margin-top:1rem; margin-bottom:1.5rem;">Recent Highlights</div>
+    <div class="placements-grid">
+      <div class="placement-card">
+        <div class="placement-name">Izzy &amp; Lorenzo</div>
+        <div class="placement-detail">Accepted into the prestigious<br /><strong style="color:var(--white)">National Youth Theatre</strong></div>
+      </div>
+      <div class="placement-card">
+        <div class="placement-name">Bronwyn</div>
+        <div class="placement-detail">BA Degree at<br /><strong style="color:var(--white)">Mountview Theatre School</strong></div>
+      </div>
+      <div class="placement-card">
+        <div class="placement-name">Lily May</div>
+        <div class="placement-detail">BA Degree at<br /><strong style="color:var(--white)">Trinity Laban</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL -->
+  <section class="testimonial-section">
+    <div class="quote-mark">"</div>
+    <p class="testimonial-text">
+      With Richard's extensive performing credits and an excellent understanding of 'triple' threat musical theatre vocational training, this is a wonderful opportunity for professional musical theatre training in the South West.
+    </p>
+    <div class="testimonial-author">
+      <strong>Chris Hocking</strong>
+      Deputy Principal &amp; Director of Musical Theatre<br />
+      Arts Educational School, London
+    </div>
+  </section>
+
+  <!-- GUEST TEACHERS -->
+  <section id="guests">
+    <div class="section-label">Guest Teachers</div>
+    <h2>Direct from the <em>West End</em></h2>
+    <p class="lead">We regularly invite working West End professionals into the studio to deliver industry workshops — giving students real-world insight and connections.</p>
+    <div class="guest-card">
+      <div class="guest-avatar">LB</div>
+      <div>
+        <div class="guest-name">Luke Baker</div>
+        <div class="guest-role">Dean — Everybody's Talking About Jamie (West End)</div>
+        <div class="guest-desc">Luke has delivered industry workshops directly to RDTS students, sharing his experience of performing in one of the West End's most celebrated contemporary musicals.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-section" id="contact">
+    <div class="section-label">Get in Touch</div>
+    <h2>Ready to <em>Begin?</em></h2>
+    <div class="contact-grid">
+      <div>
+        <p class="lead" style="margin-bottom:2.5rem;">Whether you're a prospective student, a parent with questions, or interested in our summer school — we'd love to hear from you.</p>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-value"><a href="mailto:richarddalets@gmail.com">richarddalets@gmail.com</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-label">Location</div>
+            <div class="contact-value">Exeter College Dance Studio<br />Behind Queen Street, Exeter EX4 3SR</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📸</div>
+          <div>
+            <div class="contact-label">Instagram</div>
+            <div class="contact-value"><a href="https://instagram.com/richarddaletheatreschool" target="_blank" rel="noopener">@richarddaletheatreschool</a></div>
+          </div>
+        </div>
+      </div>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input class="form-input" type="text" placeholder="e.g. Jane Smith" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input class="form-input" type="email" placeholder="jane@example.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Enquiry Type</label>
+          <select class="form-input" style="cursor:pointer">
+            <option>General Enquiry</option>
+            <option>Class Registration</option>
+            <option>Summer School 2026</option>
+            <option>Guest Teacher / Collaboration</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-textarea" placeholder="Tell us a bit about yourself or your child..."></textarea>
+        </div>
+        <button type="submit" class="form-btn">Send Enquiry →</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo"><img src="LOGOYKW.png" alt="YK Wellness" style="height:56px;width:auto;"></a>
+        <p>Expert massage therapy and osteopathy in West London. Bespoke treatments at Westway Sports Centre, tailored to your individual needs.</p>
+        <div class="footer-social">
+          <a href="#" class="social-btn" aria-label="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/ykwellness/" target="_blank" class="social-btn" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://api.whatsapp.com/send/?phone=%2B447910007933&text&type=phone_number&app_absent=0" class="social-btn" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Treatments</h5>
+        <ul>
+          <li><a href="deep-tissue.html">Deep Tissue Massage</a></li>
+          <li><a href="sports-massage.html">Sports Massage</a></li>
+          <li><a href="swedish-massage.html">Swedish Massage</a></li>
+          <li><a href="osteopathy.html">Osteopathy</a></li>
+          <li><a href="specialised-treatments.html">Cupping Therapy</a></li>
+          <li><a href="specialised-treatments.html">Dry Needling</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Information</h5>
+        <ul>
+          <li><a href="team.html">Meet the Team</a></li>
+          <li><a href="massage-therapy.html">All Treatments</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="https://www.fresha.com/a/yk-wellness-london-westway-sports-fitness-centre-uk-1-crowthorne-road-git4ohyh" target="_blank">Book Online</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="tel:07910007933">07910 007933</a></li>
+          <li><a href="mailto:hello@ykwellness.co.uk">hello@ykwellness.co.uk</a></li>
+          <li><a href="#">Westway Sports Centre</a></li>
+          <li><a href="#">1 Crowthorne Road, W10 6RP</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 The Wellness Well Ltd trading as YK Wellness. Company Reg. 12345040.</span>
+      <div style="display:flex;gap:1.5rem;">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms &amp; Conditions</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  <script>
+    function toggleMenu() {
+      const links = document.querySelector('.nav-links');
+      const cta   = document.querySelector('.nav-cta');
+      if (!links) return;
+      const open = links.style.display === 'flex';
+      links.style.cssText = open ? '' : 'display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(10,10,10,0.97);padding:1.5rem 5vw;gap:1.2rem;border-bottom:1px solid #242830;';
+      if (cta) cta.style.display = open ? '' : 'block';
+    }
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.form-btn');
+      btn.textContent = 'Message Sent ✓';
+      btn.style.background = '#2d7a3a';
+      btn.style.color = '#fff';
+      setTimeout(() => {
+        btn.textContent = 'Send Enquiry →';
+        btn.style.background = '';
+        btn.style.color = '';
+        e.target.reset();
+      }, 3000);
+    }
+
+    // Navbar scroll shadow
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').style.boxShadow =
+        window.scrollY > 40 ? '0 4px 30px rgba(0,0,0,0.5)' : '';
+    });
+
+    // Fade-in on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) {
+          el.target.style.opacity = '1';
+          el.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.class-card, .pillar, .placement-card, .school-chip, .guest-card, .summer-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
